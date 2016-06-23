@@ -19,65 +19,22 @@
 # - Contao-Version entdecken und automatisch anpassen.
 
 
-# - - - - - - - - - -
-# Start Konfiguration
-# - - - - - - - - - -
-
-# Zielverzeichnis = wo sollen die erzeugten Backups abgelegt werden.
-# Auf einem Produktivsystem ist ein öffentlich zugängliches Verzeichnis keine tolle Idee ... :-o
-
-TARGET_DIR=/some/dir/outside/the/webroot
-
-
-# Basisname der erzeugten Backupdateien. Wenn leer, dann wird der Name
-# des Verzeichnisses verwendet, indem sich die Contao Installation befindet.
-# (siehe CONTAO_DIR weiter unten).
-
-#DUMP_NAME=''
-DUMP_NAME=meinprojekt
-
-
-# Stammverzeichnis der Contao Installation
-
-WEB_ROOT=/var/www/something
-
-
-# Name der Contao Installationsverzeichnises. Unterverzeichnis von WEB_ROOT.
-# Falls Contao im web root (WEB_ROOT) installiert wurde:
-#CONTAO_DIR=.
-
-CONTAO_DIR=name_of_directory
-
-
-# Soll das files (oder tl_files) Verzeichnis auch gesichert werden?
-
-BACKUP_CONTAO_FILES=1
-#BACKUP_CONTAO_FILES=0
-
-
-# Sollen die Dateien der Contao Installation gesichert werden?
-# (Inhalt von CONTAO_DIR, alles außer files bzw. tl_files).
-
-BACKUP_CONTAO_DIRS=1
-#BACKUP_CONTAO_DIRS=0
-
-# - - - - - - - - - -
-# Ende Konfiguration
-# - - - - - - - - - -
-
 # Zeitstempel:
-#
-# GNU date
-#
-YESTERDAY=$(date --date "1 days ago" +"%Y-%m-%d")
-LASTWEEK=$(date --date "7 days ago" +"%Y-%m-%d")
-#
-# BSD Date (OSX, ...)
-#
-#YESTERDAY=$(date -v -1d +"%Y-%m-%d")
-#LASTWEEK=$(date -v -1w +"%Y-%m-%d")
+
+if [ $OS = 'BSD' ]
+then
+  # BSD Date (OSX, ...)
+  YESTERDAY=$(date -v -1d +"%Y-%m-%d")
+  LASTWEEK=$(date -v -1w +"%Y-%m-%d")
+else
+  # GNU Date (Linux et al.)
+  YESTERDAY=$(date --date "1 days ago" +"%Y-%m-%d")
+  LASTWEEK=$(date --date "7 days ago" +"%Y-%m-%d")
+fi
 
 TODAY=$(date +"%Y-%m-%d")
+
+echo $YESTERDAY
 
 # Existieren die angegebenen Verzeichnisse?
 
