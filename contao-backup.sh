@@ -20,8 +20,9 @@
 
 
 # Zeitstempel:
+# YESTERDAY und LASTWEEK werden aktuell (hier) nicht verwendet!
 
-if [ $OS = 'BSD' ]
+if [ ${OS} = 'BSD' ]
 then
   # BSD Date (OSX, ...)
   YESTERDAY=$(date -v -1d +"%Y-%m-%d")
@@ -34,28 +35,26 @@ fi
 
 TODAY=$(date +"%Y-%m-%d")
 
-echo $YESTERDAY
-
 # Existieren die angegebenen Verzeichnisse?
 
-if [ ! -d $WEB_ROOT ]
+if [ ! -d ${WEB_ROOT} ]
 then
     echo "Fehler: WEB_ROOT $WEB_ROOT existiert nicht!"
     exit
 fi
 
-if [ ! -d $WEB_ROOT/$CONTAO_DIR ]
+if [ ! -d ${WEB_ROOT}/${CONTAO_DIR} ]
 then
-    echo "Fehler: CONTAO_DIR $WEB_ROOT/$CONTAO_DIR existiert nicht!"
+    echo "Fehler: CONTAO_DIR ${WEB_ROOT}/${CONTAO_DIR} existiert nicht!"
     exit
 fi
 
 # Contao Konfigurationsdatei aus der die Zugangsdaten für die Datenbank gelesen werden.
 # TODO: Anpassungen für Contao 4.x
 
-CONFIG=$WEB_ROOT/$CONTAO_DIR/system/config/localconfig.php
+CONFIG=${WEB_ROOT}/${CONTAO_DIR}/system/config/localconfig.php
 
-if [ ! -f $CONFIG ]
+if [ ! -f ${CONFIG} ]
 then
     echo "Fehler: Konfigurationsdatei localconfig.php nicht gefunden!"
     exit
@@ -64,11 +63,11 @@ fi
 # Basisname der zu erstellenden Backupdateien entweder aus gesezter Variable oder
 # anhand des Namens des Contao-Verzeichnisses CONTAO_DIR.
 
-if [ $DUMP_NAME != '' ]
+if [ ${DUMP_NAME} != '' ]
 then
-    DUMP=${TARGET_DIR}/$DUMP_NAME_${TODAY}
+    DUMP=${TARGET_DIR}/${DUMP_NAME}_${TODAY}
 else
-    if [ $CONTAO_DIR = '.' ]
+    if [ ${CONTAO_DIR} = '.' ]
     then
         DUMP=${TARGET_DIR}/contao_aus_root_dir_${TODAY}
     else
@@ -78,7 +77,7 @@ fi
 
 # Statusmessage
 
-echo "$TODAY: erstelle Backup von $WEB_ROOT/$CONTAO_DIR nach ${DUMP}*"
+echo "${TODAY}: erstelle Backup von ${WEB_ROOT}/${CONTAO_DIR} nach ${DUMP}*"
 
 # - - - - - - - - - -
 # (1) Dump der Datenbank
@@ -86,14 +85,14 @@ echo "$TODAY: erstelle Backup von $WEB_ROOT/$CONTAO_DIR nach ${DUMP}*"
 
 # Contaos localconfig.php mit den Datenbankzugangsdaten auslesen
 
-HOST=$(grep dbHost "$CONFIG"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
-DATABASE=$(grep dbDatabase "$CONFIG" | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
-USER=$(grep dbUser "$CONFIG"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
-PASS=$(grep dbPass "$CONFIG"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+HOST=$(grep dbHost "${CONFIG}"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+DATABASE=$(grep dbDatabase "${CONFIG}" | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+USER=$(grep dbUser "${CONFIG}"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+PASS=$(grep dbPass "${CONFIG}"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
 
 
 ## visual Debug (korrekte Zugangsdaten ausgelesen?)
-## echo "host='$HOST' database='$DATABASE' user='$USER' pass='$PASS'" ; exit
+## echo "host='${HOST}' database='${DATABASE}' user='${USER}' pass='${PASS}'" ; exit
 
 # Optionen für mysqldump:
 # (1) --skip-extended-insert vs. --extended-insert
@@ -104,42 +103,42 @@ PASS=$(grep dbPass "$CONFIG"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *
 # (z. B. wird aus 'abc' 0x616263). Betroffen sind die Datentypen BINARY, VARBINARY, BLOB und BIT."
 #
 echo "Erstelle Datenbankdump"
-mysqldump -u $USER -p$PASS \
+mysqldump -u ${USER} -p${PASS} \
     --add-drop-table \
     --skip-extended-insert \
     --default-character-set utf8 \
     --hex-blob \
-    -h $HOST \
-    $DATABASE \
+    -h ${HOST} \
+    ${DATABASE} \
     > ${DUMP}.sql \
     && gzip --force ${DUMP}.sql && echo "done"
 
 # - - - - - - - - - -
 # (2) Sicherung der Projekt-Dateien aus files oder tl_files in Contao 3.x bzw. Contao 2.x
 # - - - - - - - - - -
-if [ $BACKUP_CONTAO_FILES -gt 0 ]
+if [ ${BACKUP_CONTAO_FILES} -gt 0 ]
 then
     echo "Sichere Projekt-Dateien"
 
     FILES_DIR=files
 
     # Contao 3.x
-    if [ -d $WEB_ROOT/$CONTAO_DIR/$FILES_DIR ]
+    if [ -d ${WEB_ROOT}/${CONTAO_DIR}/${FILES_DIR} ]
     then
-        echo "-> aus Verzeichnis $CONTAO_DIR/$FILES_DIR"
+        echo "-> aus Verzeichnis ${CONTAO_DIR}/${FILES_DIR}"
     else
         # Contao 2.x
         FILES_DIR=tl_files
-        echo "-> aus Verzeichnis $CONTAO_DIR/$FILES_DIR"
-        if [ ! -d $WEB_ROOT/$CONTAO_DIR/$FILES_DIR ]
+        echo "-> aus Verzeichnis ${CONTAO_DIR}/${FILES_DIR}"
+        if [ ! -d ${WEB_ROOT}/${CONTAO_DIR}/${FILES_DIR} ]
         then
-            echo "Fehler: Weder $CONTAO_DIR/files noch $CONTAO_DIR/tl_files existieren! Verzeichnis umbenannt?"
+            echo "Fehler: Weder ${CONTAO_DIR}/files noch ${CONTAO_DIR}/tl_files existieren! Verzeichnis umbenannt?"
             exit
         fi
      fi
 
     echo "erstelle Backup des Contao 'files' Verzeichnisses"
-    ( cd $WEB_ROOT && tar -c -z -f ${DUMP}_files.tar.gz $CONTAO_DIR/$FILES_DIR && echo "done" )
+    ( cd ${WEB_ROOT} && tar -c -z -f ${DUMP}_files.tar.gz ${CONTAO_DIR}/${FILES_DIR} && echo "done" )
 fi
 
 
@@ -147,10 +146,10 @@ fi
 # (3) Sicherung der Contao System-Dateien
 # - - - - - - - - - -
 
-if [ $BACKUP_CONTAO_DIRS -gt 0 ]
+if [ ${BACKUP_CONTAO_DIRS} -gt 0 ]
 then
   echo "erstelle Backup der Contao System-Dateien"
-  ( cd $WEB_ROOT && tar -c -z --exclude="$CONTAO_DIR/$FILES_DIR*" -f ${DUMP}.tar.gz $CONTAO_DIR && echo "done" )
+  ( cd ${WEB_ROOT} && tar -c -z --exclude="${CONTAO_DIR}/${FILES_DIR}/*" -f ${DUMP}.tar.gz ${CONTAO_DIR} && echo "done" )
 fi
 
 # - - - - - - - - - -
