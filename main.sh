@@ -51,18 +51,24 @@ BACKUP_CONTAO_DIRS=1
 #OS='GNU'
 OS='BSD'
 
-# Directory whrere the main script is stored
-# used for absolute paths (->cron jobs)
+# Verzeichnis in dem das Haupt-Skript gespeichert ist.
+# Wird u.A. für absolute Pfade in cron jobs benötigt.
 
-#SCRIPTDIR=/where/the/main/backup_script/is/located
-SCRIPTDIR=.
+SCRIPTDIR=/dir/where/the/main/backup_script/is/located
 
 # - - - - - - - - - -
 # Ende Konfiguration
 # - - - - - - - - - -
 
-# call the main backup script
+# Das Haupt-Skript aufrufen, das die eigentliche Backup-Logik enthält.
 
 source ${SCRIPTDIR}/contao-backup.sh
+
+# Hier evtl. noch alte Backups löschen. Im Haupt-Skript wird dazu
+# z.B. die Variable $LASTWEEK gesetzt und man könnte (wenn das
+# Backup per cron täglich läuft) mit folgendem Befehl dafür sorgen,
+# daß alte Backups "rollierend" gelöscht werden.
+#
+# rm -f $TARGET_DIR/*${LASTWEEK}*.gz
 
 ## EOF ##
