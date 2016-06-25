@@ -63,7 +63,7 @@ fi
 # Basisname der zu erstellenden Backupdateien entweder aus gesezter Variable oder
 # anhand des Namens des Contao-Verzeichnisses CONTAO_DIR.
 
-if [ ${DUMP_NAME} != '' ]
+if [ "${DUMP_NAME}" != '' ]
 then
     DUMP=${TARGET_DIR}/${DUMP_NAME}_${TODAY}
 else
@@ -85,14 +85,14 @@ echo "${TODAY}: erstelle Backup von ${WEB_ROOT}/${CONTAO_DIR} nach ${DUMP}*"
 
 # Contaos localconfig.php mit den Datenbankzugangsdaten auslesen
 
-HOST=$(grep dbHost "${CONFIG}"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
-DATABASE=$(grep dbDatabase "${CONFIG}" | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
-USER=$(grep dbUser "${CONFIG}"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
-PASS=$(grep dbPass "${CONFIG}"         | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+HOST=$(grep '^\$GLOBALS' "${CONFIG}"      | grep dbHost      | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+DATABASE=$(grep '^\$GLOBALS' "${CONFIG}"  | grep dbDatabase  | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+USER=$(grep '^\$GLOBALS" "${CONFIG}'      | grep dbUser      | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+PASS=$(grep '^\$GLOBALS" "${CONFIG}'      | grep dbPass      | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
 
 
 ## visual Debug (korrekte Zugangsdaten ausgelesen?)
-## echo "host='${HOST}' database='${DATABASE}' user='${USER}' pass='${PASS}'" ; exit
+## echo -e "host='${HOST}'\ndatabase='${DATABASE}'\nuser='${USER}'\npass='${PASS}'" ; exit
 
 # Optionen für mysqldump:
 # (1) --skip-extended-insert vs. --extended-insert
