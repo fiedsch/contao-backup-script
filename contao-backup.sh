@@ -63,7 +63,7 @@ fi
 # Basisname der zu erstellenden Backupdateien entweder aus gesezter Variable oder
 # anhand des Namens des Contao-Verzeichnisses CONTAO_DIR.
 
-if [ ${DUMP_NAME} != '' ]
+if [ "${DUMP_NAME}" != '' ]
 then
     DUMP=${TARGET_DIR}/${DUMP_NAME}_${TODAY}
 else
