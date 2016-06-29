@@ -85,10 +85,10 @@ echo "${TODAY}: erstelle Backup von ${WEB_ROOT}/${CONTAO_DIR} nach ${DUMP}*"
 
 # Contaos localconfig.php mit den Datenbankzugangsdaten auslesen
 
-HOST=$(grep '^\$GLOBALS' "${CONFIG}"      | grep dbHost      | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+HOST=$(grep '^\$GLOBALS' "${CONFIG}"      | grep dbHost       | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
 DATABASE=$(grep '^\$GLOBALS' "${CONFIG}"  | grep dbDatabase  | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
-USER=$(grep '^\$GLOBALS" "${CONFIG}'      | grep dbUser      | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
-PASS=$(grep '^\$GLOBALS" "${CONFIG}'      | grep dbPass      | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+USER=$(grep '^\$GLOBALS' "${CONFIG}"      | grep dbUser      | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
+PASS=$(grep '^\$GLOBALS' "${CONFIG}"      | grep dbPass      | grep -v '#' | cut -d '=' -f2 | sed "s/^ *'//" | sed "s/'; *$//" )
 
 
 ## visual Debug (korrekte Zugangsdaten ausgelesen?)
