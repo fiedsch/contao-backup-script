@@ -23,13 +23,13 @@ TARGET_DIR=/some/dir/outside/the/webroot
 DUMP_NAME=meinprojekt
 
 
-# Stammverzeichnis der Contao Installation
+# Root Verzeichnis aller Webanwendungen
 
-WEB_ROOT=/var/www/something
+WEB_ROOT=/var/www
 
 
 # Name der Contao Installationsverzeichnises. Unterverzeichnis von WEB_ROOT.
-# Falls Contao im web root (WEB_ROOT) installiert wurde:
+# Falls Contao im root-Verzeichnis (WEB_ROOT) installiert wurde:
 #CONTAO_DIR=.
 
 CONTAO_DIR=name_of_directory
