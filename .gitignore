@@ -7,3 +7,6 @@ Thumbs.db
 
 # Composer
 /vendor/
+
+# Test file with local paths
+test.sh
