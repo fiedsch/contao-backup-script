@@ -10,3 +10,7 @@ Thumbs.db
 
 # Test file with local paths
 test.sh
+
+# generated backups
+*.tar.gz
+*.sql.gz
