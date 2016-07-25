@@ -116,28 +116,28 @@ mysqldump -u ${USER} -p${PASS} \
 # - - - - - - - - - -
 # (2) Sicherung der Projekt-Dateien aus files oder tl_files in Contao 3.x bzw. Contao 2.x
 # - - - - - - - - - -
+
+# Contao 3.x
+FILES_DIR=files
+
+if [ -d ${WEB_ROOT}/${CONTAO_DIR}/${FILES_DIR} ]
+then
+  echo "Contao 3.x; Verzeichnis ${CONTAO_DIR}/${FILES_DIR}"
+else
+  # Contao 2.x
+  FILES_DIR=tl_files
+  if [ -d ${WEB_ROOT}/${CONTAO_DIR}/${FILES_DIR} ]
+  then
+    echo "Contao 2.x; Verzeichnis ${CONTAO_DIR}/${FILES_DIR}"
+  else  
+    echo "Fehler: Weder ${CONTAO_DIR}/files noch ${CONTAO_DIR}/tl_files existieren! Verzeichnis umbenannt?"
+    exit
+  fi
+fi
+
 if [ ${BACKUP_CONTAO_FILES} -gt 0 ]
 then
-    echo "Sichere Projekt-Dateien"
-
-    FILES_DIR=files
-
-    # Contao 3.x
-    if [ -d ${WEB_ROOT}/${CONTAO_DIR}/${FILES_DIR} ]
-    then
-        echo "-> aus Verzeichnis ${CONTAO_DIR}/${FILES_DIR}"
-    else
-        # Contao 2.x
-        FILES_DIR=tl_files
-        echo "-> aus Verzeichnis ${CONTAO_DIR}/${FILES_DIR}"
-        if [ ! -d ${WEB_ROOT}/${CONTAO_DIR}/${FILES_DIR} ]
-        then
-            echo "Fehler: Weder ${CONTAO_DIR}/files noch ${CONTAO_DIR}/tl_files existieren! Verzeichnis umbenannt?"
-            exit
-        fi
-     fi
-
-    echo "erstelle Backup des Contao 'files' Verzeichnisses"
+    echo "Sichere Projekt-Dateien aus ${FILES_DIR}"
     ( cd ${WEB_ROOT} && tar -c -z -f ${DUMP}_files.tar.gz ${CONTAO_DIR}/${FILES_DIR} && echo "done" )
 fi
 
