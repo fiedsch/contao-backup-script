@@ -18,6 +18,13 @@
 #   https://community.contao.org/de/showthread.php?56480-Datensicherung-wie-macht-ihr-das&p=369698#post369698
 # - Contao-Version entdecken und automatisch anpassen.
 
+# Dieses Skript nicht direkt aufrufen. Es muss in einem Wrapper eingebunden werden
+# in dem die hier verwendeten Variablen gesetzt werden.
+if [ -z ${CONTAO_DIR} ]
+then
+    echo "Dieses Skript darf nicht direkt aufgerufen werden!"
+    exit
+fi
 
 # Zeitstempel:
 # YESTERDAY und LASTWEEK werden aktuell (hier) nicht verwendet!
