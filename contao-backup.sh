@@ -26,6 +26,16 @@ then
     exit
 fi
 
+# Check, ob alle benötigten Programme zur Verfügung stehen
+for prog in date mysqldump grep sed tar
+do
+    if [ -z "$(which $prog)" ]
+    then
+        echo "'$prog' ist nicht verfügbar. Voraussetzungen für dieses Skript prüfen!"
+        exit
+    fi
+done
+
 # Zeitstempel:
 # YESTERDAY und LASTWEEK werden aktuell (hier) nicht verwendet!
 
