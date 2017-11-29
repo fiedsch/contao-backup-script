@@ -39,15 +39,22 @@ done
 # Zeitstempel:
 # YESTERDAY und LASTWEEK werden aktuell (hier) nicht verwendet!
 
-if [ ${OS} = 'BSD' ]
+# Regeln, wie date mit Parametern aufgerufen wird, da die Parameter für
+# Linux und Co. vs. macOS unterschiedlich sind.
+
+if [ "$(uname)" = 'Darwin' ]
 then
   # BSD Date (OSX, ...)
   YESTERDAY=$(date -v -1d +"%Y-%m-%d")
   LASTWEEK=$(date -v -1w +"%Y-%m-%d")
-else
+elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]
+then
   # GNU Date (Linux et al.)
   YESTERDAY=$(date --date "1 days ago" +"%Y-%m-%d")
   LASTWEEK=$(date --date "7 days ago" +"%Y-%m-%d")
+else
+  echo "Your platform ($(uname -a)) is not yet supported. Consider making a pull request!"
+  exit 1
 fi
 
 TODAY=$(date +"%Y-%m-%d")

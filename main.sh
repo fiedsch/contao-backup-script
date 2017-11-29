@@ -47,11 +47,6 @@ BACKUP_CONTAO_FILES=1
 BACKUP_CONTAO_DIRS=1
 #BACKUP_CONTAO_DIRS=0
 
-# OS type (regelt, wie date mit Parametern aufgerufen wird)
-# Optionen sind GNU für Linux und Co.oder BSD für macOS (das einen BSD Kernel hat).
-OS='GNU'
-#OS='BSD'
-
 # Verzeichnis in dem das Haupt-Skript gespeichert ist.
 # Wird u.A. für absolute Pfade in cron jobs benötigt.
 
