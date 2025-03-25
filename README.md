@@ -1,4 +1,4 @@
-**Abandoned. See https://github.com/fiedsch/contao-4-backup-script (which, despite the name, is fpor Contao 5 also)!**
+**Abandoned. See https://github.com/fiedsch/contao-4-backup-script (which, despite the name, is for Contao 5 also)!**
 
 # Contao Backup Skript
 
