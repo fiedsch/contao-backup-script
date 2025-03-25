@@ -1,3 +1,5 @@
+**Abandoned. See https://github.com/fiedsch/contao-4-backup-script (which, despite the name, is fpor Contao 5 also)!**
+
 # Contao Backup Skript
 
 Skript zur Sicherung einer Contao-Installation (Datenbank und optional Dateien).
